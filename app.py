@@ -4,9 +4,10 @@ from dotenv import load_dotenv ##pip install python-dotenv
 import os
 
 load_dotenv()
-api_key= os.getenv("GROQ_API_KEY")##loading apikey from the .env file and tranforing it to api_keys variable
 
-client=Groq(api_key=api_key)##configure and no need for model selection
+def get_client():
+    api_key = os.getenv("GROQ_API_KEY")
+    return Groq(api_key=api_key)
 
 app= Flask(__name__)
 
@@ -38,6 +39,7 @@ def retest():
 
 
 def humanize_text1(text):
+    client = get_client()
     prompt=f""" Rewrite the following text as a student would write it.
 
     Strict Rules:
@@ -71,6 +73,7 @@ def humanize_text1(text):
     return response.choices[0].message.content
 
 def humanize_text2(text):
+    client = get_client()
     prompt=f"""Clean up the following text.
 
     Strict Rules:
@@ -102,6 +105,7 @@ def humanize_text2(text):
     return response.choices[0].message.content
     
 def humanize_text3(text):
+    client = get_client()
     prompt=f"""You are a real college student doing a final edit on your assignment.
     
     Strict Rules:
