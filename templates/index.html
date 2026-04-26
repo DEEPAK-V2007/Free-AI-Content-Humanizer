@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humanize - AI Content Humanizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 100%),
+                radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.1) 0%, transparent 100%),
+                radial-gradient(1px 1px at 50% 70%, rgba(255,255,255,0.1) 0%, transparent 100%),
+                radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.08) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.08) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 800px;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            animation: fadeInDown 0.8s ease forwards;
+        }
+
+        .logo-img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+        }
+
+        .logo-svg {
+            width: 160px;
+            height: 160px;
+        }
+
+        .brand-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 12px;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 6px;
+            color: rgba(160, 140, 200, 0.7);
+            text-transform: uppercase;
+        }
+
+        .form-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .paste-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #818cf8, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .textarea-wrapper {
+            width: 100%;
+            position: relative;
+        }
+
+        .textarea-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.4), rgba(96, 165, 250, 0.2), rgba(192, 132, 252, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 220px;
+            background: rgba(15, 10, 30, 0.8);
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            color: rgba(200, 190, 230, 0.9);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        textarea::placeholder {
+            color: rgba(129, 140, 248, 0.3);
+            font-style: italic;
+        }
+
+        textarea:focus {
+            border-color: rgba(129, 140, 248, 0.5);
+            background: rgba(20, 14, 40, 0.9);
+        }
+
+        .humanize-btn {
+            padding: 14px 48px;
+            background: rgba(10, 5, 25, 0.9);
+            border: 1px solid rgba(129, 140, 248, 0.5);
+            border-radius: 8px;
+            color: rgba(160, 180, 255, 0.9);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .humanize-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .humanize-btn:hover {
+            border-color: rgba(129, 140, 248, 0.8);
+            color: rgba(200, 210, 255, 1);
+            background: rgba(129, 140, 248, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .humanize-btn:hover::before {
+            left: 100%;
+        }
+
+        .humanize-btn:active {
+            transform: translateY(0px);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: rgba(129, 140, 248, 0.3);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="logo-section">
+            <img src="{{ url_for('static', filename='LOGO.png') }}" class="logo-img" alt="Humanize Logo"> 
+            <div class="brand-name">HUMANIZER</div>
+            <div class="brand-subtitle">AI Content Humanizer</div>
+        </div>
+
+        <div class="form-section">
+            <div class="paste-label">Paste Your AI Content</div>
+
+            <form action="/humanize" method="post">
+                <div class="textarea-wrapper">
+                    <textarea
+                        name="AI_text"
+                        rows="10"
+                        placeholder="Paste your AI generated content here...">
+                    </textarea>
+                </div>
+                <button type="submit" class="humanize-btn">Humanize!</button>
+            </form>
+        </div>
+
+        <div class="footer-note">Free · No Sign In · No Limits</div>
+
+    </div>
+</body>
+</html>
