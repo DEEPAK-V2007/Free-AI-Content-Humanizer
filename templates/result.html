@@ -19,7 +19,6 @@
             overflow-x: hidden;
         }
 
-        /* Subtle background stars */
         body::before {
             content: '';
             position: fixed;
@@ -47,7 +46,6 @@
             gap: 30px;
         }
 
-        /* Header */
         .header {
             display: flex;
             align-items: center;
@@ -88,7 +86,6 @@
             text-transform: uppercase;
         }
 
-        /* Main content area */
         .main-content {
             display: flex;
             gap: 20px;
@@ -97,7 +94,6 @@
             opacity: 0;
         }
 
-        /* Text panels */
         .panels-wrapper {
             display: flex;
             gap: 20px;
@@ -154,7 +150,6 @@
             border-radius: 4px;
         }
 
-        /* Buttons panel */
         .buttons-panel {
             display: flex;
             flex-direction: column;
@@ -163,7 +158,6 @@
             min-width: 180px;
         }
 
-        /* Try New Text Button */
         .btn-new {
             padding: 20px 24px;
             background: linear-gradient(135deg, #d946ef, #a855f7);
@@ -195,7 +189,6 @@
             transform: translateY(0px);
         }
 
-        /* Regenerate Button */
         .btn-regenerate {
             padding: 20px 24px;
             background: rgba(88, 60, 160, 0.6);
@@ -225,7 +218,6 @@
             transform: translateY(0px);
         }
 
-        /* Copy button */
         .btn-copy {
             padding: 14px 24px;
             background: transparent;
@@ -248,7 +240,6 @@
             color: rgba(96, 165, 250, 1);
         }
 
-        /* Animations */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -259,7 +250,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Footer */
         .footer-note {
             text-align: center;
             font-size: 11px;
@@ -267,12 +257,112 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
+
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 16px;
+                gap: 20px;
+            }
+
+            .logo-img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .brand-name {
+                font-size: 16px;
+                letter-spacing: 3px;
+                word-break: break-word;
+            }
+
+            .brand-subtitle {
+                font-size: 8px;
+                letter-spacing: 2px;
+            }
+
+            .main-content {
+                flex-direction: column;
+            }
+
+            .panels-wrapper {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .text-box {
+                min-height: 220px;
+                font-size: 14px;
+                padding: 16px;
+            }
+
+            .panel-label {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+
+            .buttons-panel {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                min-width: unset;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn-new {
+                flex: 1;
+                min-width: 130px;
+                padding: 14px 10px;
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+
+            .btn-copy {
+                flex: 1;
+                min-width: 100px;
+                padding: 14px 10px;
+                font-size: 12px;
+                letter-spacing: 1px;
+            }
+
+            .btn-regenerate {
+                width: 100%;
+                padding: 14px 10px;
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+
+            .footer-note {
+                font-size: 9px;
+                letter-spacing: 1px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .brand-name {
+                font-size: 13px;
+                letter-spacing: 2px;
+                word-break: break-word;
+            }
+
+            .logo-img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .text-box {
+                min-height: 180px;
+                padding: 12px;
+            }
+        }
+        /* ========================================= */
+
     </style>
 </head>
 <body>
     <div class="page-wrapper">
 
-        <!-- Header with Logo -->
         <div class="header">
             <img src="{{ url_for('static', filename='LOGO.png') }}" class="logo-img" alt="Humanize Logo">
             <div class="header-text">
@@ -281,19 +371,15 @@
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
 
-            <!-- Text Panels -->
             <div class="panels-wrapper">
 
-                <!-- Original Text -->
                 <div class="text-panel">
                     <div class="panel-label">Original Text</div>
                     <div class="text-box">{{ original }}</div>
                 </div>
 
-                <!-- Humanized Text -->
                 <div class="text-panel">
                     <div class="panel-label humanized">Humanized Text</div>
                     <div class="text-box">{{ humanized }}</div>
@@ -301,21 +387,13 @@
 
             </div>
 
-            <!-- Buttons Panel -->
             <div class="buttons-panel">
-
-                <!-- Try New Text -->
                 <a href="/" class="btn-new">Try With A New Text</a>
-
-                <!-- Copy Humanized Text -->
                 <button class="btn-copy" onclick="copyText()">Copy Result</button>
-
-                <!-- Regenerate -->
-                <form action="/retest" method="post">
+                <form action="/retest" method="post" style="width:100%;">
                     <input type="hidden" name="original_text" value="{{ original }}">
                     <button type="submit" class="btn-regenerate">Regenerate The Text Again</button>
                 </form>
-
             </div>
 
         </div>

@@ -241,13 +241,79 @@
             animation: fadeInUp 0.8s ease 0.4s forwards;
             opacity: 0;
         }
+
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 16px;
+                gap: 28px;
+            }
+
+            .logo-img {
+                width: 110px;
+                height: 110px;
+            }
+
+            .brand-name {
+                font-size: 22px;
+                letter-spacing: 3px;
+                text-align: center;
+                word-break: break-word;
+            }
+
+            .brand-subtitle {
+                font-size: 10px;
+                letter-spacing: 3px;
+                text-align: center;
+            }
+
+            .paste-label {
+                font-size: 14px;
+                letter-spacing: 2px;
+                text-align: center;
+            }
+
+            textarea {
+                min-height: 180px;
+                font-size: 15px;
+                padding: 15px;
+            }
+
+            .humanize-btn {
+                padding: 14px 0;
+                font-size: 15px;
+                width: 100%;
+                letter-spacing: 3px;
+            }
+
+            .footer-note {
+                font-size: 10px;
+                letter-spacing: 1px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .brand-name {
+                font-size: 18px;
+                letter-spacing: 2px;
+                word-break: break-word;
+            }
+
+            .logo-img {
+                width: 90px;
+                height: 90px;
+            }
+        }
+        /* ========================================= */
+
     </style>
 </head>
 <body>
     <div class="container">
 
         <div class="logo-section">
-            <img src="{{ url_for('static', filename='LOGO.png') }}" class="logo-img" alt="Humanize Logo"> 
+            <img src="{{ url_for('static', filename='LOGO.png') }}" class="logo-img" alt="Humanize Logo">
             <div class="brand-name">HUMANIZER</div>
             <div class="brand-subtitle">AI Content Humanizer</div>
         </div>
